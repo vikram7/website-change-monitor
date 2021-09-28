@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+require("dotenv").config();
 const request = require('request');
 
 //Express configuration
@@ -11,20 +12,20 @@ const PORT = process.env.PORT || 3000;
 
 
 //Main configuration variables
-const urlToCheck = `http://urlyouwant.com/tocheck`;
-const elementsToSearchFor = ['Text you want to watch for', 'imageYouWantToCheckItsExistence.png'];
-const checkingFrequency = 5 * 60000; //first number represent the checkingFrequency in minutes
+const urlToCheck = process.env.URL_TO_CHECK;
+const elementsToSearchFor = ['MINT - Releasing Soon'];
+const checkingFrequency = 1 * 60000; //first number represent the checkingFrequency in minutes
 
 //Slack Integration
-const SLACK_WEBHOOK_URL = 'https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX';
+const SLACK_WEBHOOK_URL = process.env.SLACK_WEBHOOK_URL;
 const slack = require('slack-notify')(SLACK_WEBHOOK_URL);
 
 //SendGrid Email Integration
-const SENDGRID_APY_KEY = 'AA.AAAA_AAAAAAAAAAAAA.AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
+const SENDGRID_APY_KEY = process.env.SENDGRID_APY_KEY;
 const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(SENDGRID_APY_KEY);
-const emailFrom = 'aaa@aaa.com';
-const emailsToAlert = ['emailOneToSend@theAlert.com', 'emailTwoToSend@theAlert.com'];
+const emailFrom = process.env.EMAIL_FROM
+const emailsToAlert = [process.env.EMAIL_FROM];
 
 
 const checkingNumberBeforeWorkingOKEmail = 1440 / (checkingFrequency / 60000);   //1 day = 1440 minutes
